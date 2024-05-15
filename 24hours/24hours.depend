@@ -1,0 +1,53 @@
+# depslib dependency file v1.0
+1715246313 source:c:\users\charlottes\desktop\24hours\main.cpp
+	<bits/stdc++.h>
+	"collisionGame.h"
+
+1715247311 c:\users\charlottes\desktop\24hours\defs.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<SDL_mixer.h>
+
+1714900482 c:\users\charlottes\desktop\24hours\status.h
+	"defs.h"
+
+1715247471 source:c:\users\charlottes\desktop\24hours\status.cpp
+	<bits/stdc++.h>
+	"status.h"
+
+1714206410 c:\users\charlottes\desktop\24hours\initgame.h
+
+1714209141 source:c:\users\charlottes\desktop\24hours\initgame.cpp
+	<bits/stdc++.h>
+	"defs.h"
+	"status.h"
+
+1714902497 c:\users\charlottes\desktop\24hours\dorender.h
+	"status.h"
+
+1715242486 source:c:\users\charlottes\desktop\24hours\dorender.cpp
+	<bits/stdc++.h>
+	"doRender.h"
+
+1715246219 source:c:\users\charlottes\desktop\24hours\loadgame.cpp
+	<bits/stdc++.h>
+	"loadGame.h"
+
+1714902346 c:\users\charlottes\desktop\24hours\loadgame.h
+	"doRender.h"
+
+1714903537 c:\users\charlottes\desktop\24hours\processgame.h
+	"loadGame.h"
+
+1715242612 source:c:\users\charlottes\desktop\24hours\processgame.cpp
+	<bits/stdc++.h>
+	"processGame.h"
+
+1715247572 source:c:\users\charlottes\desktop\24hours\collisiongame.cpp
+	<bits/stdc++.h>
+	"collisionGame.h"
+
+1714916622 c:\users\charlottes\desktop\24hours\collisiongame.h
+	"processGame.h"
+
