@@ -40,6 +40,9 @@ void doRender(SDL_Renderer* renderer, GameState* game)
     if(game->statusState == STATUS_STATE_MENU) {
         draw_game_menu(game);
     }
+    else if(game->statusState == STATUS_STATE_CONTROL) {
+        draw_game_control(game);
+    }
     else if(game->statusState == STATUS_STATE_LIVES) {
         draw_status_lives(game);
     }

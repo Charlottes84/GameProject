@@ -6,6 +6,11 @@
 
 using namespace std;
 
+bool check_inside(int mouseX, int mouseY, int rectX, int rectY, int rectW, int rectH)
+{
+    return mouseX > rectX && mouseX < rectX + rectW && mouseY > rectY && mouseY < rectY + rectH;
+}
+
 bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
 {
     bool done = false;
@@ -29,6 +34,36 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
     }
 
     SDL_Event e;
+
+    SDL_GetMouseState(&gameState->mouse.x, &gameState->mouse.y);
+    int mouseX = gameState->mouse.x;
+    int mouseY = gameState->mouse.y;
+
+    int rectW_start = gameState->mouse.rectW;
+    int rectH_start = gameState->mouse.rectH;
+    int rectX_start = gameState->mouse.rectX;
+    int rectY_start = gameState->mouse.rectY;
+
+    int rectX_control = gameState->menu.control_x;
+    int rectY_control = gameState->menu.control_y;
+    int rectW_control = gameState->menu.control_w;
+    int rectH_control = gameState->menu.control_h;
+
+    int rectX_back = gameState->menu.back_x;
+    int rectY_back = gameState->menu.back_y;
+    int rectW_back = gameState->menu.back_w;
+    int rectH_back = gameState->menu.back_h;
+
+    int rectX_quit = gameState->menu.quit_x;
+    int rectY_quit = gameState->menu.quit_y;
+    int rectW_quit = gameState->menu.quit_w;
+    int rectH_quit = gameState->menu.quit_h;
+
+    gameState->mouse.isMouse = check_inside(mouseX, mouseY, rectX_start, rectY_start, rectW_start, rectH_start);
+    gameState->mouse.isMouse_control = check_inside(mouseX, mouseY, rectX_control, rectY_control, rectW_control, rectH_control);
+    gameState->mouse.isMouse_back = check_inside(mouseX, mouseY, rectX_back, rectY_back, rectW_back, rectH_back);
+    gameState->mouse.isMose_quit = check_inside(mouseX, mouseY, rectX_quit, rectY_quit, rectW_quit, rectH_quit);
+
     while(SDL_PollEvent(&e))
     {
         switch(e.type)
@@ -43,11 +78,25 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
                 }
             } break;
 
+            case SDL_MOUSEBUTTONDOWN:
+            {
+                if(e.button.button == SDL_BUTTON_LEFT)
+                {
+                    int clickX = gameState->mouse.x;
+                    int clickY = gameState->mouse.y;
+
+                    gameState->mouse.isClick_start = gameState->mouse.isMouse;
+                    gameState->mouse.isClick_control = gameState->mouse.isMouse_control;
+                    gameState->mouse.isClick_back = gameState->mouse.isMouse_back;
+                    cout << clickX << " " << clickY << endl;
+                }
+            } break;
+
             case SDL_KEYDOWN:
             {
                 switch(e.key.keysym.sym)
                 {
-                    case SDLK_SPACE:
+                    case SDLK_ESCAPE:
                         done = true;
                     break;
         //------------------ Important !!! ------------------//
@@ -150,17 +199,35 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
 
 void Move(GameState *game)
 {
+    //cout << game->statusState << endl;
     if(game->statusState == STATUS_STATE_MENU)
     {
-        const Uint8* Key = SDL_GetKeyboardState(NULL);
-        if(Key[SDL_SCANCODE_J])
+        if(game->mouse.isClick_start == true)
         {
             shutdown_game_menu(game);
             game->statusState = STATUS_STATE_LIVES;
             init_status_live(game);
             game->check = true;
+            game->mouse.isClick_start = false;
+        }
+        else if(game->mouse.isClick_control == true)
+        {
+            shutdown_game_menu(game);
+            game->statusState = STATUS_STATE_CONTROL;
+            init_game_control(game);
         }
     }
+    const Uint8* Key = SDL_GetKeyboardState(NULL);
+    if(game->mouse.isClick_back == true)
+    {
+        shutdown_game_control(game);
+        game->statusState = STATUS_STATE_MENU;
+        init_game_menu(game);
+        cout << "yes"<< endl;
+        game->mouse.isClick_control = false;
+        game->mouse.isClick_back = false;
+    }
+
     if(game->check == true) game->time++;
 
     if(game->statusState == STATUS_STATE_LIVES)

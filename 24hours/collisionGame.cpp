@@ -52,7 +52,7 @@ void collisionDetect(GameState* game)
 
                 game->birds[i].baseX = -AIM_BIRDS;
                 game->birds[i].baseY = -AIM_BIRDS;
-                cout << i << endl;
+                //cout << i << endl;
             }
         }
     }

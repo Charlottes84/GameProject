@@ -7,8 +7,8 @@ const char* GOKU_SPRITE_FILE = "img\\Walk.png";
 const char* FIRE_FILE = "fire.png";
 const char* WHITE_BIRD_FILE = "whitebird.png";
 const char* HEART_FILE = "heart.png";
-const char* BACKGROUND_FILE = "assets\\img\\background.png";
-const char* BRICK_FILE = "assets\\img\\brick\\3.png";
+const char* BACKGROUND_FILE = "assets\\img\\background\\background1.png";
+const char* BRICK_FILE = "assets\\img\\brick\\2.png";
 const char* BULLET_SPHERE_FILE = "assets\\img\\bullet\\sphere.png";
 
 
@@ -31,6 +31,13 @@ void init(GameState *game)
     game->check = false;
     game->scrollX = 0;
     game->deathCountdown = -1;
+
+    game->mouse.isMouse = false;
+    game->mouse.isClick_start = false;
+    game->mouse.isMouse_control = false;
+    game->mouse.isClick_control = false;
+    game->mouse.isClick_back = false;
+    game->mouse.isMouse_back = false;
 
     game->man.x = 150;
     game->man.y = 150;

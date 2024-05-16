@@ -23,5 +23,9 @@ void init_game_menu(GameState *game);
 void draw_game_menu(GameState *game);
 void shutdown_game_menu(GameState *game);
 
+void init_game_control(GameState *game);
+void draw_game_control(GameState *game);
+void shutdown_game_control(GameState *game);
+
 
 #endif // _STATUS__H

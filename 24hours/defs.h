@@ -29,6 +29,7 @@
 #define FIRE_H 83
 
 #define STATUS_STATE_MENU       4
+#define STATUS_STATE_CONTROL    5
 #define STATUS_STATE_LIVES      0
 #define STATUS_STATE_GAME       1
 #define STATUS_STATE_GAMEOVER   2
@@ -76,10 +77,39 @@ struct Bullet
     bool aim;
 };
 
+struct Mouse
+{
+    int x, y;
+    bool isMouse;
+    bool isMouse_control;
+    bool isMouse_back;
+    bool isMouse_quit;
+
+    bool isClick_start;
+    bool isClick_control;
+    bool isClick_back;
+    bool isClick_quit;
+
+    int rectX, rectY, rectW, rectH;
+};
+
+struct Menu
+{
+    int control_x, control_y, control_w, control_h;
+    int back_x, back_y, back_w, back_h;
+    int quit_x, quit_y, quit_w, quit_h;
+};
+
 struct GameState
 {
     float scrollX;
     bool check;
+
+    //Menu
+    Menu menu;
+
+    //Mouse
+    Mouse mouse;
 
     //Bullet
     Bullet bullet;
@@ -107,6 +137,12 @@ struct GameState
     SDL_Texture *bkmenu;
     SDL_Texture *st1;
     SDL_Texture *st2;
+    SDL_Texture *ctr1;
+    SDL_Texture *ctr2;
+    SDL_Texture *ba1;
+    SDL_Texture *ba2;
+    SDL_Texture *qu1;
+    SDL_Texture *qu2;
 
     //Fonts
     TTF_Font *font;
