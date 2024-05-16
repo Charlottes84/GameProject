@@ -54,7 +54,7 @@ void init(GameState *game)
     game->bullet.y = 0;
     game->bullet.time = 0;
     game->bullet.is_move = false;
-    game->bullet.ready = false;
+    game->bullet.ready = true;
     game->bullet.cnt = 0;
     game->bullet.aim = false;
     game->bullet.x_fake = 0;

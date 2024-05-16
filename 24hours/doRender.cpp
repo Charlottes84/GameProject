@@ -86,8 +86,8 @@ void doRender(SDL_Renderer* renderer, GameState* game)
 
         //draw a rectangle at man's position
         int i = game->man.currentFrames;
-        SDL_Rect rectMan = {game->scrollX + game->man.x, game->man.y, MANSIZE, MANSIZE};
         SDL_Rect clip = {GOKU_CLIPS[i][0], GOKU_CLIPS[i][1], MANSIZE_BASE, MANSIZE_BASE};
+        SDL_Rect rectMan = {game->scrollX + game->man.x, game->man.y, MANSIZE_BASE, MANSIZE_BASE};
         SDL_RenderCopyEx(renderer, game->manFrames[game->man.currentFrames]
                          , &clip, &rectMan, 0, NULL, (game->man.facingLeft == 0) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);

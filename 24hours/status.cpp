@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #include "status.h"
 
-const char *BGMENU_FILE = "assets\\img\\menu\\bk_menu.png";
+const char *BGMENU_FILE = "assets\\img\\menu\\bk_menu1.png";
 const char *START1 = "assets\\img\\menu\\Start_Button.png";
 const char *START2 = "assets\\img\\menu\\Start_col_Button.png";
 const char *CONTROL1 = "assets\\img\\menu\\Controls_Button.png";
@@ -288,7 +288,8 @@ void draw_game_menu(GameState *game)
 
     //quit
     SDL_Rect quit_rect = {game->menu.quit_x, game->menu.quit_y, game->menu.quit_w, game->menu.quit_h};
-    SDL_RenderCopy(Renderer, game->qu1, NULL, &quit_rect);
+    if(game->mouse.isMouse_quit == false) {SDL_RenderCopy(Renderer, game->qu1, NULL, &quit_rect);}
+    else {SDL_RenderCopy(Renderer, game->qu2, NULL, &quit_rect);}
 }
 
 void shutdown_game_menu(GameState *game)

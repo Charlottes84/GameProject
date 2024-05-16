@@ -71,7 +71,7 @@ void collisionDetect(GameState* game)
     //check for collision with any ledges (brick blocks) - kiểm tra va chạm với bất kỳ vật nào
     for(int i = 0; i < 100; i++)
     {
-        float mw = MANSIZE, mh = MANSIZE;
+        float mw = MANSIZE_BASE, mh = MANSIZE_BASE;
         float mx = game->man.x, my = game->man.y;
         float bx = game->ledges[i].x, by = game->ledges[i].y,
               bw = game->ledges[i].w, bh = game->ledges[i].h;

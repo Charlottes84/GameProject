@@ -62,7 +62,7 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
     gameState->mouse.isMouse = check_inside(mouseX, mouseY, rectX_start, rectY_start, rectW_start, rectH_start);
     gameState->mouse.isMouse_control = check_inside(mouseX, mouseY, rectX_control, rectY_control, rectW_control, rectH_control);
     gameState->mouse.isMouse_back = check_inside(mouseX, mouseY, rectX_back, rectY_back, rectW_back, rectH_back);
-    gameState->mouse.isMose_quit = check_inside(mouseX, mouseY, rectX_quit, rectY_quit, rectW_quit, rectH_quit);
+    gameState->mouse.isMouse_quit = check_inside(mouseX, mouseY, rectX_quit, rectY_quit, rectW_quit, rectH_quit);
 
     while(SDL_PollEvent(&e))
     {
@@ -88,6 +88,7 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
                     gameState->mouse.isClick_start = gameState->mouse.isMouse;
                     gameState->mouse.isClick_control = gameState->mouse.isMouse_control;
                     gameState->mouse.isClick_back = gameState->mouse.isMouse_back;
+                    gameState->mouse.isClick_quit = gameState->mouse.isMouse_quit;
                     cout << clickX << " " << clickY << endl;
                 }
             } break;
@@ -118,6 +119,11 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
         }
     }
 
+    if(gameState->mouse.isClick_quit == true)
+    {
+        done = true;
+    }
+
     if(gameState->man.onLedge && joystickButton1)
     {
         gameState->man.dy = -8;
@@ -128,9 +134,11 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
     const Uint8* Key = SDL_GetKeyboardState(NULL);
 
     //bullet ready
-    if(Key[SDL_SCANCODE_K])
+    if(Key[SDL_SCANCODE_K] && gameState->bullet.ready == true && gameState->man.facingLeft == 1)
     {
+        cout << "yes" << endl;
         gameState->bullet.is_move = true;
+        gameState->bullet.ready = false;
 
         if(gameState->bullet.cnt == 0)
         {
@@ -139,7 +147,7 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
             gameState->bullet.cnt = 1;
             gameState->bullet.time = gameState->bullet.x;
         }
-        else if(gameState->bullet.cnt == 1 /*&& gameState->bullet.time + REFILL_BULLET < gameState->time*/)
+        else if(gameState->bullet.cnt == 1)
         {
             gameState->bullet.x = gameState->man.x + MANSIZE/2;
             gameState->bullet.y = gameState->man.y + MANSIZE/2;
@@ -157,10 +165,9 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
             gameState->bullet.y = -10;
             gameState->bullet.is_move = false;
             gameState->bullet.aim = false;
-            //gameState->bullet.ready = true;
         }
-
     }
+    if(gameState->bullet.is_move == false) {gameState->bullet.ready = true;}
 
     //more jumping
     if(Key[SDL_SCANCODE_UP] || joystickButton1){
@@ -168,7 +175,6 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
     }
 
     if(Key[SDL_SCANCODE_RIGHT] || joystickRight){
-    cout << "RIGHT" << " " << gameState->man.x << " " << gameState->man.dx << endl;
         gameState->man.dx += 0.5;
         if(gameState->man.dx > 6)
             gameState->man.dx = 6;
@@ -177,7 +183,6 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
         //Mix_PlayChannel(-1, gameState->landSound, 0);
     }
     else if(Key[SDL_SCANCODE_LEFT] || joystickLeft){
-    cout << "LEFT" << " " << gameState->man.x << " " << gameState->man.dx << endl;
         gameState->man.dx -= 0.5;
         if(gameState->man.dx < -6)
             gameState->man.dx = -6;
@@ -331,7 +336,7 @@ void Move(GameState *game)
                     game->bullet.y = -10;
                     game->bullet.time = 0;
                     game->bullet.is_move = false;
-                    game->bullet.ready = false;
+                    game->bullet.ready = true;
                     game->bullet.cnt = 0;
                     game->bullet.aim = false;
                     game->bullet.x_fake = 0;

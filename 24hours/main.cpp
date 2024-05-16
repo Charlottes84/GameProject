@@ -29,7 +29,7 @@ int main(int agrc, char* agrv[])
     loadGame(&gameState);
 
     bool done = false;
-    cout << "update 1" << endl;
+    cout << "update 5" << endl;
 
     while(!done)
     {
