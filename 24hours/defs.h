@@ -9,16 +9,26 @@
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 600
 
+#define LIMIT_X 38000
+#define LIMIT_Y 480
+
 #define SPEED 5
 #define GRAVITY 0.4f
+
 #define MANSIZE 100
 #define MANSIZE_BASE 128
+
 #define NUM_LEDGES 120
-#define NUM_BIRDS 200
+#define LEDGES_W 256
+#define LEDGES_H 64
+
+#define NUM_BIRDS 100
 #define BIRD_SIZE 64
+
 #define FIRE_W 38
 #define FIRE_H 83
 
+#define STATUS_STATE_MENU       4
 #define STATUS_STATE_LIVES      0
 #define STATUS_STATE_GAME       1
 #define STATUS_STATE_GAMEOVER   2
@@ -27,6 +37,7 @@
 struct Bird
 {
     int x, y, baseX, baseY, mode;
+    bool alive;
     float phase;
 };
 
@@ -51,9 +62,27 @@ struct Background
     int x, y, w, h;
 };
 
+struct Bullet
+{
+    int x, y;
+
+    int x_fake, y_fake;
+
+    int time, cnt;
+    int collision;
+
+    bool is_move;
+    bool ready;
+    bool aim;
+};
+
 struct GameState
 {
     float scrollX;
+    bool check;
+
+    //Bullet
+    Bullet bullet;
 
     //Player
     Character man;
@@ -72,6 +101,12 @@ struct GameState
     SDL_Texture *fire;
     SDL_Texture *background;
     SDL_Texture *heart;
+    SDL_Texture *sphere;
+
+    //Background Menu
+    SDL_Texture *bkmenu;
+    SDL_Texture *st1;
+    SDL_Texture *st2;
 
     //Fonts
     TTF_Font *font;

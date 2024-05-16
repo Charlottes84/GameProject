@@ -1,6 +1,10 @@
 #include <bits/stdc++.h>
 #include "status.h"
 
+const char *BGMENU_FILE = "assets\\img\\menu\\bk_menu.png";
+const char *START1 = "assets\\img\\menu\\Start_Button.png";
+const char *START2 = "assets\\img\\menu\\Start_col_Button.png";
+
 using namespace std;
 
 void init_status_live(GameState *game)
@@ -182,4 +186,49 @@ void shutdown_status_crip(GameState *game)
 {
     SDL_DestroyTexture(game->label);
     game->label = NULL;
+}
+
+void init_game_menu(GameState *game)
+{
+    game->font = TTF_OpenFont("fonts\\Crazy-Pixel.ttf", 40);
+    if(game->font == NULL) { printf("Font loading failed: %s\n", TTF_GetError()); }
+
+    SDL_Color white = {255, 255, 255, 255};
+    SDL_Surface *TextSurface = TTF_RenderText_Blended_Wrapped(game->font, "Menu", white, 800);
+    game->labelW = TextSurface->w;
+    game->labelH = TextSurface->h;
+    if(TextSurface == NULL) { printf("Surface creation failed: %s\n", TTF_GetError()); }
+    game->label = SDL_CreateTextureFromSurface(game->renderer, TextSurface);
+    if(TextSurface == NULL) { printf("Texture creation failed: %s\n", TTF_GetError()); }
+    SDL_FreeSurface(TextSurface);
+
+    SDL_Surface *Surpic = NULL;
+    Surpic = IMG_Load(BGMENU_FILE);
+    if(Surpic == NULL) {cout << "Can't find BGMENU!" << "\n"; SDL_Quit(); return;}
+    game->bkmenu = SDL_CreateTextureFromSurface(game->renderer, Surpic);
+    SDL_FreeSurface(Surpic);
+
+    Surpic = IMG_Load(START1);
+    if(Surpic == NULL) {cout << "Can't find START1" << "\n"; SDL_Quit(); return;}
+
+}
+
+void draw_game_menu(GameState *game)
+{
+    SDL_Renderer *Renderer = game->renderer;
+
+    SDL_Rect bgmenu_rect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+    SDL_RenderCopy(Renderer, game->bkmenu, NULL, &bgmenu_rect);
+
+    SDL_Rect rect = {20, 20, game->labelW, game->labelH};
+    SDL_RenderCopy(Renderer, game->label, NULL, &rect);
+}
+
+void shutdown_game_menu(GameState *game)
+{
+    SDL_DestroyTexture(game->label);
+    game->label = NULL;
+
+    SDL_DestroyTexture(game->bkmenu);
+    game->bkmenu = NULL;
 }

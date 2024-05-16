@@ -51,3 +51,48 @@
 1714916622 c:\users\charlottes\desktop\24hours\collisiongame.h
 	"processGame.h"
 
+1715765637 source:c:\users\charlottes\downloads\24hours\collisiongame.cpp
+	<bits/stdc++.h>
+	"collisionGame.h"
+
+1714916622 c:\users\charlottes\downloads\24hours\collisiongame.h
+	"processGame.h"
+
+1714903537 c:\users\charlottes\downloads\24hours\processgame.h
+	"loadGame.h"
+
+1714902346 c:\users\charlottes\downloads\24hours\loadgame.h
+	"doRender.h"
+
+1714902497 c:\users\charlottes\downloads\24hours\dorender.h
+	"status.h"
+
+1715767251 c:\users\charlottes\downloads\24hours\status.h
+	"defs.h"
+
+1715819658 c:\users\charlottes\downloads\24hours\defs.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<SDL_mixer.h>
+
+1715789231 source:c:\users\charlottes\downloads\24hours\dorender.cpp
+	<bits/stdc++.h>
+	"doRender.h"
+
+1715790439 source:c:\users\charlottes\downloads\24hours\loadgame.cpp
+	<bits/stdc++.h>
+	"loadGame.h"
+
+1715820449 source:c:\users\charlottes\downloads\24hours\main.cpp
+	<bits/stdc++.h>
+	"collisionGame.h"
+
+1715789530 source:c:\users\charlottes\downloads\24hours\processgame.cpp
+	<bits/stdc++.h>
+	"processGame.h"
+
+1715820525 source:c:\users\charlottes\downloads\24hours\status.cpp
+	<bits/stdc++.h>
+	"status.h"
+

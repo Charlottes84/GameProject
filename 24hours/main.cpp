@@ -29,6 +29,7 @@ int main(int agrc, char* agrv[])
     loadGame(&gameState);
 
     bool done = false;
+    cout << "update 5" << endl;
 
     while(!done)
     {
@@ -36,10 +37,12 @@ int main(int agrc, char* agrv[])
         Move(&gameState);
         collisionDetect(&gameState);
         doRender(renderer, &gameState);
+
         SDL_Delay(10);
     }
+    cout << gameState.bullet.collision;
 
-    //Destroy
+    //Destroy Texture
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyTexture(gameState.bird);

@@ -1,6 +1,9 @@
 #include <bits/stdc++.h>
 #include "collisionGame.h"
 
+#define BULLET_SPHERE_SIZE 10
+#define AIM_BIRDS 100
+
 using namespace std;
 
 //useful utility function to see if two rectangles are colliding at all
@@ -16,6 +19,42 @@ void collisionDetect(GameState* game)
         Mix_PlayChannel(-1, game->dieSound, 0);
         Mix_HaltChannel(game->musicChannel);
         //exit(0);
+    }
+
+    for(int i = 0; i < NUM_BIRDS; i++)
+    {
+        float mw = BULLET_SPHERE_SIZE, mh = BULLET_SPHERE_SIZE;
+        float mx = game->bullet.x, my = game->bullet.y;
+        float bx = game->birds[i].x, by = game->birds[i].y, bw = BIRD_SIZE, bh = BIRD_SIZE;
+
+        if(my + mh > by && my < by + bh)
+        {
+            // check phải của đất
+            if(mx < bx + bw && mx + mw > bx + bw)
+            {
+                game->bullet.x = bx + bw;
+                mx = bx + bw;
+            }
+            else if(mx + mw > bx && mx < bx)
+            {
+                game->bullet.x = bx - mw;
+                mx = bx - mw;
+
+                game->bullet.y_fake = game->birds[i].y;
+                game->bullet.x_fake = game->birds[i].x;
+
+                game->bullet.is_move = false;
+                game->bullet.collision = i;
+                game->bullet.aim = true;
+
+                game->bullet.x = -10;
+                game->bullet.y = -10;
+
+                game->birds[i].baseX = -AIM_BIRDS;
+                game->birds[i].baseY = -AIM_BIRDS;
+                cout << i << endl;
+            }
+        }
     }
 
     for(int i = 0; i < NUM_BIRDS; i++)
@@ -151,6 +190,7 @@ void collisionDetect(GameState* game)
 
                 game->man.dx = 0;
             }
+            //check chạm trái
             else if(mx + mw > bx && mx < bx && game->man.dx > 0)
             {
                 game->man.x = bx - mw;

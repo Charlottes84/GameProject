@@ -19,5 +19,9 @@ void init_game_progressbar(GameState *game);
 void draw_game_progressbar(GameState *game);
 void shutdown_game_progressbar(GameState *game);
 
+void init_game_menu(GameState *game);
+void draw_game_menu(GameState *game);
+void shutdown_game_menu(GameState *game);
+
 
 #endif // _STATUS__H

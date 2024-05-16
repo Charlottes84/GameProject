@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 #include "doRender.h"
 
+#define BULLET_SPHERE_SIZE 10
+
 using namespace std;
 
 const int GOKU_CLIPS[][4] = {
@@ -35,8 +37,10 @@ void RenderHPBar(int x, int y, int w, int h, float Percent, SDL_Color FGColor, S
 
 void doRender(SDL_Renderer* renderer, GameState* game)
 {
-
-    if(game->statusState == STATUS_STATE_LIVES) {
+    if(game->statusState == STATUS_STATE_MENU) {
+        draw_game_menu(game);
+    }
+    else if(game->statusState == STATUS_STATE_LIVES) {
         draw_status_lives(game);
     }
     else if(game->statusState == STATUS_STATE_GAMEOVER) {
@@ -56,14 +60,6 @@ void doRender(SDL_Renderer* renderer, GameState* game)
             SDL_RenderCopy(renderer, game->background, NULL, &ledgeRect);
         }
 
-        //Bird
-        for(int i = 0; i < NUM_BIRDS; i++)
-        {
-            SDL_Rect picRect = {game->scrollX + game->birds[i].x, game->birds[i].y, 50, 50};
-            SDL_RenderCopy(renderer, game->bird, NULL, &picRect);
-            //SDL_RenderFillRect(renderer, &picRect);
-        }
-
         //draw ledges
         for(int i = 0; i < 100; i++)
         {
@@ -71,6 +67,19 @@ void doRender(SDL_Renderer* renderer, GameState* game)
             SDL_RenderCopy(renderer, game->brick, NULL, &ledgeRect);
             //SDL_RenderFillRect(renderer, &ledgeRect);
         }
+
+        //Bird
+        int a = game->bullet.collision;
+        for(int i = 0; i < NUM_BIRDS; i++)
+        {
+            SDL_Rect picRect = {game->scrollX + game->birds[i].x, game->birds[i].y, 50, 50};
+            SDL_RenderCopy(renderer, game->bird, NULL, &picRect);
+            //SDL_RenderFillRect(renderer, &picRect);
+        }
+
+        SDL_Rect rect = {game->scrollX +  game->birds[a].x,  game->birds[a].y - 25, FIRE_W, FIRE_H};
+        SDL_RenderCopyEx(renderer, game->fire, NULL, &rect, 0, NULL, (game->time%20 < 10) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+
 
         //draw a rectangle at man's position
         int i = game->man.currentFrames;
@@ -81,11 +90,15 @@ void doRender(SDL_Renderer* renderer, GameState* game)
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         //SDL_RenderFillRect(renderer, &rectMan);
 
+        //Bullet_Sphere
+        SDL_Rect Bullet_Rect = {game->bullet.x + game->scrollX, game->bullet.y, BULLET_SPHERE_SIZE, BULLET_SPHERE_SIZE};
+        SDL_RenderCopy(renderer, game->sphere, NULL, &Bullet_Rect);
+
+
         if(game->man.isDead == 1)
         {
             SDL_Rect rect = {game->scrollX + game->man.x, game->man.y - 25, FIRE_W, FIRE_H};
-            SDL_RenderCopyEx(renderer, game->fire
-                         , NULL, &rect, 0, NULL, (game->time%20 < 10) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+            SDL_RenderCopyEx(renderer, game->fire, NULL, &rect, 0, NULL, (game->time%20 < 10) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
         }
 
         SDL_Color white = {255, 255, 255, 255};

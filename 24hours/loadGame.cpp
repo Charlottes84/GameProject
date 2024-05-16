@@ -9,14 +9,15 @@ const char* WHITE_BIRD_FILE = "whitebird.png";
 const char* HEART_FILE = "heart.png";
 const char* BACKGROUND_FILE = "assets\\img\\background.png";
 const char* BRICK_FILE = "assets\\img\\brick\\3.png";
+const char* BULLET_SPHERE_FILE = "assets\\img\\bullet\\sphere.png";
 
 
 void initStars(GameState* game)
 {
     for(int i = 0; i < NUM_BIRDS; i++)
     {
-        game->birds[i].baseX = 320 + rand()%38400;
-        game->birds[i].baseY = rand()%480;
+        game->birds[i].baseX = 320 + rand()%LIMIT_X;
+        game->birds[i].baseY = rand()%LIMIT_Y;
         game->birds[i].mode = rand()%2;
         game->birds[i].phase = 2*3.14*(rand()%360)/360.0f;
     }
@@ -25,19 +26,35 @@ void initStars(GameState* game)
 void init(GameState *game)
 {
     initStars(game);
-    game->man.x = 200;
-    game->man.y = 200;
+
+    game->time = 0;
+    game->check = false;
+    game->scrollX = 0;
+    game->deathCountdown = -1;
+
+    game->man.x = 150;
+    game->man.y = 150;
     game->man.dy = 0;
     game->man.dx = 0;
     game->man.onLedge = 0;
     game->man.currentFrames = 0;
-    game->time = 0;
     game->man.facingLeft = 1;
     game->man.slowingDown = 0;
     game->man.lives = 3;
-    game->scrollX = 0;
     game->man.isDead = 0;
-    game->deathCountdown = -1;
+
+    game->bullet.x = 0;
+    game->bullet.y = 0;
+    game->bullet.time = 0;
+    game->bullet.is_move = false;
+    game->bullet.ready = false;
+    game->bullet.cnt = 0;
+    game->bullet.aim = false;
+    game->bullet.x_fake = 0;
+    game->bullet.y_fake = 0;
+    game->bullet.collision = 0;
+
+    //game->birds[NUM_BIRDS].alive = true;
 }
 
 void load_whitebird(GameState *game)
@@ -101,8 +118,8 @@ void load_brick(GameState *game)
 
     for(int i = 0; i < NUM_LEDGES-20; i++)
     {
-        game->ledges[i].w = 256;
-        game->ledges[i].h = 64;
+        game->ledges[i].w = LEDGES_W;
+        game->ledges[i].h = LEDGES_H;
         game->ledges[i].x = i*384;
         if(i == 0)
           game->ledges[i].y = 400;
@@ -110,11 +127,11 @@ void load_brick(GameState *game)
           game->ledges[i].y = 300+100-rand()%200;
     }
 
-    for(int i = NUM_LEDGES-20; i < NUM_LEDGES - 10; i++)
+    for(int i = NUM_LEDGES-20; i < NUM_LEDGES-10; i++)
     {
-        game->ledges[i].w = 256;
-        game->ledges[i].h = 64;
-        game->ledges[i].x = 350+rand()%38400;
+        game->ledges[i].w = LEDGES_W;
+        game->ledges[i].h = LEDGES_H;
+        game->ledges[i].x = 350+rand()%LIMIT_X;
         if(i % 2 == 0)
           game->ledges[i].y = 200;
         else
@@ -143,6 +160,15 @@ void load_background(GameState *game)
     }
 }
 
+void load_bullet(GameState *game)
+{
+    SDL_Surface *Surpic = NULL;
+    Surpic = IMG_Load(BULLET_SPHERE_FILE);
+    if(Surpic == NULL){ cout << "Cannot find Brick!" << endl; SDL_Quit(); return;}
+    game->sphere = SDL_CreateTextureFromSurface(game->renderer, Surpic);
+    SDL_FreeSurface(Surpic);
+}
+
 void loadGame(GameState *game)
 {
     srand((int)time(nullptr));
@@ -155,12 +181,13 @@ void loadGame(GameState *game)
     load_heart(game);
     load_brick(game);
     load_background(game);
+    load_bullet(game);
 
     //Load Fonts
-    game->statusState =  STATUS_STATE_LIVES;
+    game->statusState =  STATUS_STATE_MENU;
     game->label = NULL;
     game->label2 = NULL;
-    init_status_live(game);
+    init_game_menu(game);
 
     //Load Sounds
     game->bgMusics = Mix_LoadWAV("sounds\\music1.wav");
