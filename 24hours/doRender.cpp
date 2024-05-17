@@ -9,14 +9,14 @@
 using namespace std;
 
 const int GOKU_CLIPS[][4] = {
-    {0, 0, 128, 128},
-    {127, 0, 128, 128},
-    {255, 0, 128, 128},
-    {383, 0, 128, 128},
-    {511, 0, 128, 128},
-    {639, 0, 128, 128},
-    {767, 0, 128, 128},
-    {895, 0, 128, 128},
+    {0, 0, 45, 90},
+    {44, 0, 45, 90},
+    {89, 0, 45, 90},
+    {134, 0, 45, 90},
+    {179, 0, 45, 90},
+    {224, 0, 45, 90},
+    {269, 0, 45, 90},
+    {314, 0, 45, 90},
 };
 const int GOKU_FRAMES = sizeof(GOKU_CLIPS)/sizeof(int)/4;
 
@@ -115,8 +115,8 @@ void doRender(SDL_Renderer* renderer, GameState* game)
 
         //draw a rectangle at man's position
         int i = game->man.currentFrames;
-        SDL_Rect clip = {GOKU_CLIPS[i][0], GOKU_CLIPS[i][1], MANSIZE_BASE, MANSIZE_BASE};
-        SDL_Rect rectMan = {game->scrollX + game->man.x, game->man.y, MANSIZE_BASE, MANSIZE_BASE};
+        SDL_Rect clip = {GOKU_CLIPS[i][0], GOKU_CLIPS[i][1], MANSIZE_BASE_W, MANSIZE_BASE_H};
+        SDL_Rect rectMan = {game->scrollX + game->man.x, game->man.y, MANSIZE_BASE_W, MANSIZE_BASE_H};
         SDL_RenderCopyEx(renderer, game->manFrames[game->man.currentFrames]
                          , &clip, &rectMan, 0, NULL, (game->man.facingLeft == 0) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -138,16 +138,16 @@ void doRender(SDL_Renderer* renderer, GameState* game)
         SDL_Rect prin_rect = {game->scrollX + game->prin.x, game->prin.y, 50, 80};
         SDL_RenderCopyEx(renderer, game->princess[j], &prin_clip, &prin_rect, 0, NULL, (game->prin.facingleft == 0) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 
-        bool check_win = false;
+
         if(game->bullet_heart.aim == true)
         {
             int z = game->pi.currentFrames;
             SDL_Rect pi_clip = {PIG_CLIPS[z][0], PIG_CLIPS[z][1], 48, 48};
-            SDL_Rect pi_rect = {game->scrollX + game->man.x, game->man.y - 20, 155, 150};
+            SDL_Rect pi_rect = {game->scrollX + game->man.x - 32, game->man.y - 60, 155, 150};
             SDL_RenderCopy(renderer, game->pig[z], &pi_clip, &pi_rect);
-            check_win = true;
+            game->check_win = true;
         }
-        if(check_win == true) game->pi.time++;
+        if(game->check_win == true) game->pi.time++;
 
         if(game->man.isDead == 1)
         {

@@ -112,14 +112,14 @@ void collisionDetect(GameState* game)
 
     for(int i = 0; i < NUM_BIRDS; i++)
     {
-        if(collide2d(game->man.x, game->man.y, game->birds[i].x, game->birds[i].y, MANSIZE/1.5, MANSIZE/1.5, BIRD_SIZE/2, BIRD_SIZE/2))
+        if(collide2d(game->man.x, game->man.y, game->birds[i].x, game->birds[i].y, MANSIZE_W/1.5, MANSIZE_W/1.5, BIRD_SIZE/2, BIRD_SIZE/2))
         {
             Mix_PlayChannel(-1, game->dieSound, 0);
             game->man.isDead = 1;
             Mix_HaltChannel(game->musicChannel);
             break;
         }
-        if(collide2d(game->man.x, game->man.y, game->bots[i].x, game->bots[i].y, MANSIZE/1.5, MANSIZE/1.5, BIRD_SIZE/2, BIRD_SIZE/2))
+        if(collide2d(game->man.x, game->man.y, game->bots[i].x, game->bots[i].y, MANSIZE_W/1.5, MANSIZE_W/1.5, BIRD_SIZE/2, BIRD_SIZE/2))
         {
             Mix_PlayChannel(-1, game->dieSound, 0);
             game->man.isDead = 1;
@@ -130,7 +130,7 @@ void collisionDetect(GameState* game)
 
     for(int i = 0; i < 100; i++)
     {
-        float mw = MANSIZE_BASE, mh = MANSIZE_BASE;
+        float mw = MANSIZE_BASE_W, mh = MANSIZE_BASE_H;
         float mx = game->man.x, my = game->man.y;
         float bx = game->ledges[i].x, by = game->ledges[i].y,
               bw = game->ledges[i].w, bh = game->ledges[i].h;

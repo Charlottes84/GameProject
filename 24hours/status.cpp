@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #include "status.h"
 
-const char *BGMENU_FILE = "assets\\img\\menu\\bk_menu1.png";
+const char *BGMENU_FILE = "assets\\img\\menu\\bk_menu2.png";
 const char *START1 = "assets\\img\\menu\\Start_Button.png";
 const char *START2 = "assets\\img\\menu\\Start_col_Button.png";
 const char *CONTROL1 = "assets\\img\\menu\\Controls_Button.png";
@@ -10,6 +10,10 @@ const char *BACK1 = "assets\\img\\menu\\Back_Button.png";
 const char *BACK2 = "assets\\img\\menu\\Back_col_Button.png";
 const char *QUIT1 = "assets\\img\\menu\\Quit_Button.png";
 const char *QUIT2 = "assets\\img\\menu\\Quit_col_Button.png";
+const char *CONTROL = "assets\\img\\menu\\control.png";
+const char *LIVES = "assets\\img\\menu\\uhave.png";
+const char *WIN = "assets\\img\\menu\\uwin.png";
+const char *GAMEOVER = "assets\\img\\menu\\gameover.png";
 
 #define START_BAR_W 600
 #define START_BAR_H 200
@@ -33,32 +37,24 @@ void init_status_live(GameState *game)
     if(TextSurface == NULL) { printf("Texture creation failed: %s\n", TTF_GetError()); }
     SDL_FreeSurface(TextSurface);
 
-
-    SDL_Color lightBlue = { 128, 192, 255, 255 };
-    TextSurface = TTF_RenderText_Blended(game->font, "Get to the end alive!", lightBlue);
-    game->label2W = TextSurface->w;
-    game->label2H = TextSurface->h;
-    game->label2 = SDL_CreateTextureFromSurface(game->renderer, TextSurface);
-    if(TextSurface == NULL) { printf("Texture creation failed: %s\n", TTF_GetError()); }
-    SDL_FreeSurface(TextSurface);
+    SDL_Surface *Surpic = NULL;
+    Surpic = IMG_Load(LIVES);
+    if(Surpic == NULL) {cout << "Can't find UHAVE!" << "\n"; SDL_Quit(); return;}
+    game->lives_bg = SDL_CreateTextureFromSurface(game->renderer, Surpic);
+    SDL_FreeSurface(Surpic);
 
 }
 void draw_status_lives(GameState *game)
 {
     SDL_Renderer* Renderer = game->renderer;
 
-    //Text - x3
-    SDL_SetRenderDrawColor(Renderer, 30, 30, 30, 255);
-    SDL_RenderClear(Renderer);
+    SDL_Rect rect_bg = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+    SDL_RenderCopy(Renderer, game->lives_bg, NULL, &rect_bg);
 
-    SDL_Rect rect = {20, 20, game->labelW, game->labelH};
+    SDL_Rect rect = {SCREEN_WIDTH/2 - 170, SCREEN_HEIGHT/2 - 90, game->labelW + 150, game->labelH + 150};
     SDL_RenderCopy(Renderer, game->label, NULL, &rect);
-    //Text - Get to the end alive
-    SDL_Rect rect2 = {380 - 90, 100, game->label2W, game->label2H};
-    //SDL_RenderCopy(Renderer, game->label2, NULL, &rect2);
 
-    //Img Man
-    SDL_Rect Rheart = {160, 305, 300, 300};
+    SDL_Rect Rheart = {SCREEN_WIDTH/2 - 130, SCREEN_HEIGHT/2 - 240, 500, 500};
     SDL_RenderCopy(Renderer, game->heart, NULL, &Rheart);
 
 
@@ -72,6 +68,9 @@ void shutdown_status_lives(GameState *game)
 
     SDL_DestroyTexture(game->label2);
     game->label2 = NULL;
+
+    SDL_DestroyTexture(game->lives_bg);
+    game->lives_bg = NULL;
 }
 
 void init_game_over(GameState *game)
@@ -85,54 +84,45 @@ void init_game_over(GameState *game)
    game->label = SDL_CreateTextureFromSurface(game->renderer, TextSurface);
    if(game->label == NULL) { printf("Texture creation failed: %s\n", TTF_GetError()); }
    SDL_FreeSurface(TextSurface);
+
+    SDL_Surface *Surpic = NULL;
+    Surpic = IMG_Load(GAMEOVER);
+    if(Surpic == NULL) {cout << "Can't find GAMEOVER!" << "\n"; SDL_Quit(); return;}
+    game->gameover = SDL_CreateTextureFromSurface(game->renderer, Surpic);
+    SDL_FreeSurface(Surpic);
 }
 
 void draw_game_over(GameState *game)
 {
-    SDL_Renderer* renderer = game->renderer;
-    SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
-    SDL_RenderClear(renderer);
-
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_Rect RectText = {320 - game->labelW/2, 240 - game->labelH/2, game->labelW, game->labelH };
-    SDL_RenderCopy(renderer, game->label, NULL, &RectText);
+    SDL_Rect rect_bg = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+    SDL_RenderCopy(game->renderer, game->gameover, NULL, &rect_bg);
 }
 
 void shutdown_game_over(GameState* game)
 {
-    SDL_DestroyTexture(game->label);
-    game->label = NULL;
+    SDL_DestroyTexture(game->gameover);
+    game->gameover = NULL;
 }
 
 void init_game_win(GameState* game)
 {
-    SDL_Color white = {255, 255, 255};
-    SDL_Surface *TextSurface = TTF_RenderText_Blended_Wrapped(game->font, "YOU WIN!", white, 800);
-    game->labelW = TextSurface->w;
-    game->labelH = TextSurface->h;
-    if(TextSurface == NULL) { printf("Surface creation failed: %s\n", TTF_GetError()); }
-
-    game->label = SDL_CreateTextureFromSurface(game->renderer, TextSurface);
-    if(game->label == NULL) { printf("Texture creation failed: %s\n", TTF_GetError()); }
-
-    SDL_FreeSurface(TextSurface);
+    SDL_Surface *Surpic = NULL;
+    Surpic = IMG_Load(WIN);
+    if(Surpic == NULL) {cout << "Can't find GAMEOVER!" << "\n"; SDL_Quit(); return;}
+    game->win = SDL_CreateTextureFromSurface(game->renderer, Surpic);
+    SDL_FreeSurface(Surpic);
 }
 
 void draw_game_win(GameState* game)
 {
-    SDL_Renderer* renderer = game->renderer;
-    SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
-    SDL_RenderClear(renderer);
-
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_Rect RectText = {320 - game->labelW/2, 240 - game->labelH/2, game->labelW, game->labelH };
-    SDL_RenderCopy(renderer, game->label, NULL, &RectText);
+    SDL_Rect rect_bg = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+    SDL_RenderCopy(game->renderer, game->win, NULL, &rect_bg);
 }
 
 void shutdown_game_win(GameState* game)
 {
-    SDL_DestroyTexture(game->label);
-    game->label = NULL;
+    SDL_DestroyTexture(game->win);
+    game->win = NULL;
 }
 
 void init_game_progressbar(GameState *game)
@@ -269,13 +259,13 @@ void draw_game_menu(GameState *game)
 {
     SDL_Renderer *Renderer = game->renderer;
 
-    //background
-    SDL_Rect bgmenu_rect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
-    SDL_RenderCopy(Renderer, game->bkmenu, NULL, &bgmenu_rect);
-
     //text
     SDL_Rect rect = {20, 20, game->labelW, game->labelH};
     SDL_RenderCopy(Renderer, game->label, NULL, &rect);
+
+    //background
+    SDL_Rect bgmenu_rect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+    SDL_RenderCopy(Renderer, game->bkmenu, NULL, &bgmenu_rect);
 
     //start
     SDL_Rect start1_rect = {game->mouse.rectX, game->mouse.rectY, game->mouse.rectW, game->mouse.rectH};
@@ -337,13 +327,18 @@ void init_game_control(GameState *game)
     SDL_FreeSurface(Surpic);
 
     game->menu.back_x = 20;
-    game->menu.back_y = SCREEN_HEIGHT - START_BAR_H/3;
+    game->menu.back_y = 10;
     game->menu.back_w = Surpic->w/4;
     game->menu.back_h = Surpic->h/4;
 
     Surpic = IMG_Load(BACK2);
     if(Surpic == NULL) {cout << "Can't find BACK2!" << "\n"; SDL_Quit(); return;}
     game->ba2 = SDL_CreateTextureFromSurface(game->renderer, Surpic);
+    SDL_FreeSurface(Surpic);
+
+    Surpic = IMG_Load(CONTROL);
+    if(Surpic == NULL) {cout << "Can't find CONTROL_BG!" << "\n"; SDL_Quit(); return;}
+    game->bg_control = SDL_CreateTextureFromSurface(game->renderer, Surpic);
     SDL_FreeSurface(Surpic);
 }
 
@@ -356,6 +351,10 @@ void draw_game_control(GameState *game)
     //text
     SDL_Rect rect = {20, 20, game->labelW, game->labelH};
     SDL_RenderCopy(Renderer, game->label, NULL, &rect);
+
+    //bg
+    SDL_Rect rect_bg = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+    SDL_RenderCopy(Renderer, game->bg_control, NULL, &rect_bg);
 
     //BACK
     SDL_Rect back_rect = {game->menu.back_x, game->menu.back_y, game->menu.back_w, game->menu.back_h};
@@ -372,4 +371,6 @@ void shutdown_game_control(GameState *game)
     SDL_DestroyTexture(game->ba2);
     game->ba1 = NULL;
     game->ba2 = NULL;
+    SDL_DestroyTexture(game->bg_control);
+    game->bg_control = NULL;
 }

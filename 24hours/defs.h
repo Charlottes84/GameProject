@@ -16,8 +16,10 @@
 #define SPEED 5
 #define GRAVITY 0.4f
 
-#define MANSIZE 100
-#define MANSIZE_BASE 128
+#define MANSIZE_W 45
+#define MANSIZE_H 90
+#define MANSIZE_BASE_W 45
+#define MANSIZE_BASE_H 90
 
 #define NUM_LEDGES 120
 #define LEDGES_W 256
@@ -122,6 +124,7 @@ struct GameState
 {
     float scrollX;
     bool check;
+    bool check_win;
 
     //Pig
     Pig pi;
@@ -175,6 +178,10 @@ struct GameState
     SDL_Texture *ba2;
     SDL_Texture *qu1;
     SDL_Texture *qu2;
+    SDL_Texture *bg_control;
+    SDL_Texture *lives_bg;
+    SDL_Texture *gameover;
+    SDL_Texture *win;
 
     //Fonts
     TTF_Font *font;

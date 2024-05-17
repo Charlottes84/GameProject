@@ -134,22 +134,22 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
     //bullet ready - sphere
     const Uint8* Key = SDL_GetKeyboardState(NULL);
 
-    if(Key[SDL_SCANCODE_A] && gameState->bullet.ready == true && gameState->man.facingLeft == 1)
+    if(Key[SDL_SCANCODE_Q] && gameState->bullet.ready == true && gameState->man.facingLeft == 1)
     {
         gameState->bullet.is_move = true;
         gameState->bullet.ready = false;
 
         if(gameState->bullet.cnt == 0)
         {
-            gameState->bullet.x = gameState->man.x + MANSIZE/2;
-            gameState->bullet.y = gameState->man.y + MANSIZE/2;
+            gameState->bullet.x = gameState->man.x + MANSIZE_W/2;
+            gameState->bullet.y = gameState->man.y + MANSIZE_H/2;
             gameState->bullet.cnt = 1;
             gameState->bullet.time = gameState->bullet.x;
         }
         else if(gameState->bullet.cnt == 1)
         {
-            gameState->bullet.x = gameState->man.x + MANSIZE/2;
-            gameState->bullet.y = gameState->man.y + MANSIZE/2;
+            gameState->bullet.x = gameState->man.x + MANSIZE_W/2;
+            gameState->bullet.y = gameState->man.y + MANSIZE_H/2;
             gameState->bullet.time = gameState->bullet.x;
         }
     }
@@ -169,22 +169,22 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
     if(gameState->bullet.is_move == false) {gameState->bullet.ready = true;}
 
     //bullet ready - laser
-    if(Key[SDL_SCANCODE_S] && gameState->bullet_laser.ready == true && gameState->man.facingLeft == 1)
+    if(Key[SDL_SCANCODE_W] && gameState->bullet_laser.ready == true && gameState->man.facingLeft == 1)
     {
         gameState->bullet_laser.is_move = true;
         gameState->bullet_laser.ready = false;
 
         if(gameState->bullet_laser.cnt == 0)
         {
-            gameState->bullet_laser.x = gameState->man.x + MANSIZE/2;
-            gameState->bullet_laser.y = gameState->man.y + MANSIZE/2;
+            gameState->bullet_laser.x = gameState->man.x + MANSIZE_W/2;
+            gameState->bullet_laser.y = gameState->man.y + MANSIZE_H/2;
             gameState->bullet_laser.cnt = 1;
             gameState->bullet_laser.time = gameState->bullet_laser.x;
         }
         else if(gameState->bullet_laser.cnt == 1)
         {
-            gameState->bullet_laser.x = gameState->man.x + MANSIZE/2;
-            gameState->bullet_laser.y = gameState->man.y + MANSIZE/2;
+            gameState->bullet_laser.x = gameState->man.x + MANSIZE_W/2;
+            gameState->bullet_laser.y = gameState->man.y + MANSIZE_H/2;
             gameState->bullet_laser.time = gameState->bullet_laser.x;
         }
     }
@@ -204,21 +204,21 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
     if(gameState->bullet_laser.is_move == false) {gameState->bullet_laser.ready = true;}
 
     //bullheart
-    if(Key[SDL_SCANCODE_D] && gameState->bullet_heart.ready == true && gameState->man.facingLeft == 1)
+    if(Key[SDL_SCANCODE_E] && gameState->bullet_heart.ready == true && gameState->man.facingLeft == 1)
     {
         gameState->bullet_heart.is_move = true;
         gameState->bullet_heart.ready = false;
 
         if(gameState->bullet_heart.cnt == 0)
         {
-            gameState->bullet_heart.x = gameState->man.x + MANSIZE/2 - 70;
+            gameState->bullet_heart.x = gameState->man.x + MANSIZE_W/2 - 70;
             gameState->bullet_heart.y = gameState->man.y - 30;
             gameState->bullet_heart.cnt = 1;
             gameState->bullet_heart.time = gameState->bullet_heart.x;
         }
         else if(gameState->bullet_heart.cnt == 1)
         {
-            gameState->bullet_heart.x = gameState->man.x + MANSIZE/2 - 70;
+            gameState->bullet_heart.x = gameState->man.x + MANSIZE_W/2 - 70;
             gameState->bullet_heart.y = gameState->man.y - 30;
             gameState->bullet_heart.time = gameState->bullet_heart.x;
         }

@@ -60,6 +60,7 @@ void init(GameState *game)
     game->check = false;
     game->scrollX = 0;
     game->deathCountdown = -1;
+    game->check_win = false;
 
     game->pi.currentFrames = 0;
     game->pi.time = 0;
