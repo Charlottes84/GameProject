@@ -42,7 +42,7 @@ void initBots(GameState *game)
 //NOTE
 void initPrincess(GameState *game)
 {
-    game->prin.i = 40;
+    game->prin.i = 35;
     game->ledges[game->prin.i].x = game->prin.i*384;
     game->ledges[game->prin.i].y = 300;
 
@@ -278,7 +278,7 @@ void loadGame(GameState *game)
     }
     else cout << "NOPE SOUND MUSIC" << endl;
 
-    game->dieSound = Mix_LoadWAV("sounds\\die1.wav");
+    game->dieSound = Mix_LoadWAV("sounds\\die2.wav");
     if(game->dieSound != NULL) {
         Mix_VolumeChunk(game->dieSound, 64);
     }
@@ -286,13 +286,25 @@ void loadGame(GameState *game)
 
     game->JumpSound = Mix_LoadWAV("sounds\\jump.wav");
     if(game->JumpSound != NULL) {
-        Mix_VolumeChunk(game->JumpSound, 64);
+        Mix_VolumeChunk(game->JumpSound, 30);
     }
     else cout << "NOPE SOUND JUMP" << endl;
 
     game->landSound = Mix_LoadWAV("sounds\\land.wav");
     if(game->landSound != NULL) {
-        Mix_VolumeChunk(game->landSound, 64);
+        Mix_VolumeChunk(game->landSound, 15);
     }
     else cout << "NOPE SOUND LAND" << endl;
+
+    game->collect = Mix_LoadWAV("sounds\\collect.wav");
+    if(game->collect != NULL) Mix_VolumeChunk(game->collect, 64);
+    else {cout << "CAN'T FIND COLLECT_MUSIC" << "\n"; SDL_Quit(); return;}
+
+    game->bullet_mc = Mix_LoadWAV("sounds\\bullet.wav");
+    if(game->bullet_mc != NULL) Mix_VolumeChunk(game->bullet_mc, 64);
+    else {cout << "CAN'T FIND BULLET_MUSIC" << "\n"; SDL_Quit(); return;}
+
+    game->hover = Mix_LoadWAV("sounds\\hover.wav");
+    if(game->hover != NULL) Mix_VolumeChunk(game->hover, 64);
+    else {cout << "CAN'T FIND HOVER_MUSIC" << "\n"; SDL_Quit(); return;}
 }

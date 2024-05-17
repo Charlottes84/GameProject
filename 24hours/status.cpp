@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #include "status.h"
 
-const char *BGMENU_FILE = "assets\\img\\menu\\bk_menu2.png";
+const char *BGMENU_FILE = "assets\\img\\menu\\bk_menu4.png";
 const char *START1 = "assets\\img\\menu\\Start_Button.png";
 const char *START2 = "assets\\img\\menu\\Start_col_Button.png";
 const char *CONTROL1 = "assets\\img\\menu\\Controls_Button.png";
@@ -131,7 +131,7 @@ void init_game_progressbar(GameState *game)
     sprintf(str, "%d% %", (int)(game->man.x/(FINISH/100)));
 
 
-    SDL_Color red = {255, 0, 0};
+    SDL_Color red = {95, 185, 213};
     SDL_Surface *TextSurface = TTF_RenderText_Blended_Wrapped(game->font, str, red, 800);
     game->labelW = TextSurface->w;
     game->labelH = TextSurface->h;
@@ -214,10 +214,10 @@ void init_game_menu(GameState *game)
     game->st1 = SDL_CreateTextureFromSurface(game->renderer, Surpic);
     SDL_FreeSurface(Surpic);
 
-    game->mouse.rectW = Surpic->w/3;
-    game->mouse.rectH = Surpic->h/3;
+    game->mouse.rectW = Surpic->w/2.4;
+    game->mouse.rectH = Surpic->h/2.4;
     game->mouse.rectX = SCREEN_WIDTH/2 - START_BAR_W/6 - 30;
-    game->mouse.rectY = SCREEN_HEIGHT/2 - 30;
+    game->mouse.rectY = SCREEN_HEIGHT/2 - 15;
 
     Surpic = IMG_Load(START2);
     if(Surpic == NULL) {cout << "Can't find START2" << "\n"; SDL_Quit(); return;}
@@ -229,10 +229,10 @@ void init_game_menu(GameState *game)
     game->ctr1 = SDL_CreateTextureFromSurface(game->renderer, Surpic);
     SDL_FreeSurface(Surpic);
 
-    game->menu.control_w = Surpic->w/3;
-    game->menu.control_h = Surpic->h/3;
+    game->menu.control_w = Surpic->w/2.4;
+    game->menu.control_h = Surpic->h/2.4;
     game->menu.control_x = SCREEN_WIDTH/2 - START_BAR_W/6 - 30;
-    game->menu.control_y = game->mouse.rectY + 80;
+    game->menu.control_y = game->mouse.rectY + 100;
 
     Surpic = IMG_Load(CONTROL2);
     if(Surpic == NULL) {cout << "Can't find CONTROL2" << "\n"; SDL_Quit(); return;}
@@ -245,9 +245,9 @@ void init_game_menu(GameState *game)
     SDL_FreeSurface(Surpic);
 
     game->menu.quit_x = SCREEN_WIDTH/2 - START_BAR_W/6 - 30;
-    game->menu.quit_y = game->menu.control_y + 80;
-    game->menu.quit_w = Surpic->w/3;
-    game->menu.quit_h = Surpic->h/3;
+    game->menu.quit_y = game->menu.control_y + 100;
+    game->menu.quit_w = Surpic->w/2.4;
+    game->menu.quit_h = Surpic->h/2.4;
 
     Surpic = IMG_Load(QUIT2);
     if(Surpic == NULL) {cout << "Can't find QUIT2" << "\n"; SDL_Quit(); return;}

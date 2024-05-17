@@ -155,9 +155,9 @@ void doRender(SDL_Renderer* renderer, GameState* game)
             SDL_RenderCopyEx(renderer, game->fire, NULL, &rect, 0, NULL, (game->time%20 < 10) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
         }
 
-        SDL_Color white = {255, 255, 255, 255};
-        SDL_Color black = {0, 0, 0, 255};
-        RenderHPBar(250, 5, 400, 30, (game->man.x)/(FINISH), black, white, game);
+        SDL_Color white = {247, 179, 168, 255};
+        SDL_Color black = {243, 235, 226, 255};
+        RenderHPBar(250, 5, 420, 30, (game->man.x)/(FINISH), black, white, game);
     }
     SDL_RenderPresent(renderer);
 }

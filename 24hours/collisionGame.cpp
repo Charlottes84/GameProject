@@ -49,6 +49,7 @@ void collisionDetect(GameState* game)
 
                 game->birds[i].baseX = -AIM_BIRDS;
                 game->birds[i].baseY = -AIM_BIRDS;
+                Mix_PlayChannel(-1, game->collect, 0);
             }
         }
     }
@@ -81,6 +82,7 @@ void collisionDetect(GameState* game)
 
                 game->bots[i].baseX = -AIM_BIRDS;
                 game->bots[i].baseY = -AIM_BIRDS;
+                Mix_PlayChannel(-1, game->collect, 0);
             }
         }
     }
@@ -106,6 +108,7 @@ void collisionDetect(GameState* game)
 
             game->bullet_heart.x = -150;
             game->bullet_heart.y = -150;
+            Mix_PlayChannel(-1, game->collect, 0);
 
         }
     }

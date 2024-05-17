@@ -82,13 +82,15 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
             {
                 if(e.button.button == SDL_BUTTON_LEFT)
                 {
-                    int clickX = gameState->mouse.x;
-                    int clickY = gameState->mouse.y;
-
                     gameState->mouse.isClick_start = gameState->mouse.isMouse;
+                    if(gameState->mouse.isClick_start == true) Mix_PlayChannel(-1, gameState->hover, 0);
                     gameState->mouse.isClick_control = gameState->mouse.isMouse_control;
+                    if(gameState->mouse.isClick_control == true) Mix_PlayChannel(-1, gameState->hover, 0);
                     gameState->mouse.isClick_back = gameState->mouse.isMouse_back;
+                    if(gameState->mouse.isClick_back == true) Mix_PlayChannel(-1, gameState->hover, 0);
                     gameState->mouse.isClick_quit = gameState->mouse.isMouse_quit;
+                    if(gameState->mouse.isClick_quit == true) Mix_PlayChannel(-1, gameState->hover, 0);
+
                 }
             } break;
 
@@ -136,6 +138,7 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
 
     if(Key[SDL_SCANCODE_Q] && gameState->bullet.ready == true && gameState->man.facingLeft == 1)
     {
+        Mix_PlayChannel(-1, gameState->bullet_mc, 0);
         gameState->bullet.is_move = true;
         gameState->bullet.ready = false;
 
@@ -171,6 +174,7 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
     //bullet ready - laser
     if(Key[SDL_SCANCODE_W] && gameState->bullet_laser.ready == true && gameState->man.facingLeft == 1)
     {
+        Mix_PlayChannel(-1, gameState->bullet_mc, 0);
         gameState->bullet_laser.is_move = true;
         gameState->bullet_laser.ready = false;
 
@@ -206,20 +210,21 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
     //bullheart
     if(Key[SDL_SCANCODE_E] && gameState->bullet_heart.ready == true && gameState->man.facingLeft == 1)
     {
+        Mix_PlayChannel(-1, gameState->bullet_mc, 0);
         gameState->bullet_heart.is_move = true;
         gameState->bullet_heart.ready = false;
 
         if(gameState->bullet_heart.cnt == 0)
         {
             gameState->bullet_heart.x = gameState->man.x + MANSIZE_W/2 - 70;
-            gameState->bullet_heart.y = gameState->man.y - 30;
+            gameState->bullet_heart.y = gameState->man.y - 50;
             gameState->bullet_heart.cnt = 1;
             gameState->bullet_heart.time = gameState->bullet_heart.x;
         }
         else if(gameState->bullet_heart.cnt == 1)
         {
             gameState->bullet_heart.x = gameState->man.x + MANSIZE_W/2 - 70;
-            gameState->bullet_heart.y = gameState->man.y - 30;
+            gameState->bullet_heart.y = gameState->man.y - 50;
             gameState->bullet_heart.time = gameState->bullet_heart.x;
         }
     }
@@ -249,7 +254,7 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
             gameState->man.dx = 6;
         gameState->man.facingLeft = 1;
         gameState->man.slowingDown = 0;
-        //Mix_PlayChannel(-1, gameState->landSound, 0);
+        Mix_PlayChannel(-1, gameState->landSound, 0);
     }
     else if(Key[SDL_SCANCODE_LEFT] || joystickLeft){
         gameState->man.dx -= 0.5;
@@ -257,7 +262,7 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
             gameState->man.dx = -6;
         gameState->man.facingLeft = 0;
         gameState->man.slowingDown = 0;
-        //Mix_PlayChannel(-1, gameState->landSound, 0);
+        Mix_PlayChannel(-1, gameState->landSound, 0);
     }
     else
     {
@@ -295,7 +300,6 @@ void initBots_ver2(GameState *game)
 
 void Move(GameState *game)
 {
-    //cout << game->statusState << endl;
     if(game->statusState == STATUS_STATE_MENU)
     {
         if(game->mouse.isClick_start == true)
@@ -450,11 +454,11 @@ void Move(GameState *game)
 
                 if(game->bots[i].mode == 0)
                 {
-                  game->bots[i].x = game->bots[i].baseX+sinf(game->bots[i].phase+game->time*0.08f)*90;
+                  game->bots[i].x = game->bots[i].baseX+sinf(game->bots[i].phase+game->time*0.095f)*90;
                 }
                 else
                 {
-                  game->bots[i].y = game->bots[i].baseY+cosf(game->bots[i].phase+game->time*0.08f)*90;
+                  game->bots[i].y = game->bots[i].baseY+cosf(game->bots[i].phase+game->time*0.095f)*90;
                 }
             }
         }

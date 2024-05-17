@@ -68,6 +68,9 @@ int main(int agrc, char* agrv[])
     Mix_FreeChunk(gameState.dieSound);
     Mix_FreeChunk(gameState.JumpSound);
     Mix_FreeChunk(gameState.landSound);
+    Mix_FreeChunk(gameState.collect);
+    Mix_FreeChunk(gameState.hover);
+    Mix_FreeChunk(gameState.bullet_mc);
 
     //Joystick
     if(gameState.joystick)

@@ -197,6 +197,7 @@ struct GameState
     //Sounds
     int musicChannel;
     Mix_Chunk *bgMusics, *JumpSound, *landSound, *dieSound;
+    Mix_Chunk *collect, *hover, *bullet_mc;
 
     //Joystick
     SDL_Joystick *joystick;
