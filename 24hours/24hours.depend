@@ -96,3 +96,48 @@
 	<bits/stdc++.h>
 	"status.h"
 
+1715954129 source:c:\users\charlottes\desktop\gameproject\24hours\collisiongame.cpp
+	<bits/stdc++.h>
+	"collisionGame.h"
+
+1714916622 c:\users\charlottes\desktop\gameproject\24hours\collisiongame.h
+	"processGame.h"
+
+1714903537 c:\users\charlottes\desktop\gameproject\24hours\processgame.h
+	"loadGame.h"
+
+1714902346 c:\users\charlottes\desktop\gameproject\24hours\loadgame.h
+	"doRender.h"
+
+1714902497 c:\users\charlottes\desktop\gameproject\24hours\dorender.h
+	"status.h"
+
+1715839289 c:\users\charlottes\desktop\gameproject\24hours\status.h
+	"defs.h"
+
+1715949225 c:\users\charlottes\desktop\gameproject\24hours\defs.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<SDL_mixer.h>
+
+1715955472 source:c:\users\charlottes\desktop\gameproject\24hours\dorender.cpp
+	<bits/stdc++.h>
+	"doRender.h"
+
+1715955049 source:c:\users\charlottes\desktop\gameproject\24hours\loadgame.cpp
+	<bits/stdc++.h>
+	"loadGame.h"
+
+1715949233 source:c:\users\charlottes\desktop\gameproject\24hours\main.cpp
+	<bits/stdc++.h>
+	"collisionGame.h"
+
+1715955763 source:c:\users\charlottes\desktop\gameproject\24hours\processgame.cpp
+	<bits/stdc++.h>
+	"processGame.h"
+
+1715955931 source:c:\users\charlottes\desktop\gameproject\24hours\status.cpp
+	<bits/stdc++.h>
+	"status.h"
+
