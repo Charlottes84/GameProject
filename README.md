@@ -21,5 +21,6 @@ Pig and Princess (P&P) là game tiêu diệt quái vật để đến với côn
 - Âm thanh cho từng cử chỉ của nhân vật
 - Âm thanh nền
 - Xây dựng Menu (START, HOW TO PLAY,  QUTI)
+- Xây dựng ProgressBar
 
 ### Ngưỡng điểm cho là xứng đáng :  8.5+
