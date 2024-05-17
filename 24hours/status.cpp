@@ -146,7 +146,7 @@ void init_game_progressbar(GameState *game)
 void draw_game_progressbar(GameState *game)
 {
     SDL_Renderer* renderer = game->renderer;
-    SDL_Rect RectText = {(250 + 380/2), -15, game->labelW, game->labelH};
+    SDL_Rect RectText = {(250 + 380/2 + 50), -15, game->labelW, game->labelH};
     SDL_RenderCopy(renderer, game->label, NULL, &RectText);
 }
 

@@ -157,7 +157,7 @@ void doRender(SDL_Renderer* renderer, GameState* game)
 
         SDL_Color white = {247, 179, 168, 255};
         SDL_Color black = {243, 235, 226, 255};
-        RenderHPBar(250, 5, 420, 30, (game->man.x)/(FINISH), black, white, game);
+        RenderHPBar(300, 5, 420, 30, (game->man.x)/(FINISH), black, white, game);
     }
     SDL_RenderPresent(renderer);
 }
