@@ -1,5 +1,6 @@
-# GameProject
- project and online tutorials
+# Thông tin sinh viên
+- Họ và tên : Nguyễn Đức Hưng
+- MSSV : 23021583
 
 # Pig and Princess (P&P)
 ![](./img.png)
