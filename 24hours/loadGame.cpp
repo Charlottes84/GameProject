@@ -42,7 +42,7 @@ void initBots(GameState *game)
 //NOTE
 void initPrincess(GameState *game)
 {
-    game->prin.i = 1;
+    game->prin.i = 40;
     game->ledges[game->prin.i].x = game->prin.i*384;
     game->ledges[game->prin.i].y = 300;
 
