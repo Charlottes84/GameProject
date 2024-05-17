@@ -11,6 +11,7 @@
 
 #define LIMIT_X 38000
 #define LIMIT_Y 480
+#define FINISH 16000
 
 #define SPEED 5
 #define GRAVITY 0.4f
@@ -24,6 +25,7 @@
 
 #define NUM_BIRDS 100
 #define BIRD_SIZE 64
+#define BOT_SIZE 32
 
 #define FIRE_W 38
 #define FIRE_H 83
@@ -67,8 +69,6 @@ struct Bullet
 {
     int x, y;
 
-    int x_fake, y_fake;
-
     int time, cnt;
     int collision;
 
@@ -100,10 +100,34 @@ struct Menu
     int quit_x, quit_y, quit_w, quit_h;
 };
 
+struct Princess
+{
+    int x, y, baseX, baseY, mode;
+    int i;
+    int currentFrames;
+    int facingleft;
+    float phase;
+};
+
+struct Pig
+{
+    int x, y, baseX, baseY, mode;
+    int time;
+    int currentFrames;
+    int facingleft;
+    float phase;
+};
+
 struct GameState
 {
     float scrollX;
     bool check;
+
+    //Pig
+    Pig pi;
+
+    //Princess
+    Princess prin;
 
     //Menu
     Menu menu;
@@ -113,12 +137,15 @@ struct GameState
 
     //Bullet
     Bullet bullet;
+    Bullet bullet_laser;
+    Bullet bullet_heart;
 
     //Player
     Character man;
 
     //Bird
     Bird birds[NUM_BIRDS];
+    Bird bots[NUM_BIRDS];
 
     //Ledges
     Ledge ledges[100];
@@ -132,6 +159,11 @@ struct GameState
     SDL_Texture *background;
     SDL_Texture *heart;
     SDL_Texture *sphere;
+    SDL_Texture *laser;
+    SDL_Texture *princess[6];
+    SDL_Texture *bot;
+    SDL_Texture *bul_heart;
+    SDL_Texture *pig[7];
 
     //Background Menu
     SDL_Texture *bkmenu;

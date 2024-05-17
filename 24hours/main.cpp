@@ -40,7 +40,6 @@ int main(int agrc, char* agrv[])
 
         SDL_Delay(10);
     }
-    cout << gameState.bullet.collision;
 
     //Destroy Texture
     SDL_DestroyWindow(window);

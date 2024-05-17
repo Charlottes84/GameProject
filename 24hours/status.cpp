@@ -138,7 +138,8 @@ void shutdown_game_win(GameState* game)
 void init_game_progressbar(GameState *game)
 {
     char str[128] = "";
-    sprintf(str, "%d% %", (int)(game->man.x/3800));
+    sprintf(str, "%d% %", (int)(game->man.x/(FINISH/100)));
+
 
     SDL_Color red = {255, 0, 0};
     SDL_Surface *TextSurface = TTF_RenderText_Blended_Wrapped(game->font, str, red, 800);
@@ -155,7 +156,7 @@ void init_game_progressbar(GameState *game)
 void draw_game_progressbar(GameState *game)
 {
     SDL_Renderer* renderer = game->renderer;
-    SDL_Rect RectText = {(250 + 380/2), 32, game->labelW, game->labelH };
+    SDL_Rect RectText = {(250 + 380/2), -15, game->labelW, game->labelH};
     SDL_RenderCopy(renderer, game->label, NULL, &RectText);
 }
 

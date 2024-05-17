@@ -89,7 +89,6 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
                     gameState->mouse.isClick_control = gameState->mouse.isMouse_control;
                     gameState->mouse.isClick_back = gameState->mouse.isMouse_back;
                     gameState->mouse.isClick_quit = gameState->mouse.isMouse_quit;
-                    cout << clickX << " " << clickY << endl;
                 }
             } break;
 
@@ -100,9 +99,8 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
                     case SDLK_ESCAPE:
                         done = true;
                     break;
-        //------------------ Important !!! ------------------//
+
                     case SDLK_UP:
-                        cout << "UP" << " " << gameState->man.y << " " << gameState->man.dy << endl;
                         if(gameState->man.onLedge)
                         {
                             gameState->man.dy = -7;
@@ -110,9 +108,10 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
                             Mix_PlayChannel(-1, gameState->JumpSound, 0);
                         }
                     break;
-        //-------------------------------------------------//
+
                 }
             } break;
+
             case SDL_QUIT:
                 done = true;
             break;
@@ -131,12 +130,12 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
         Mix_PlayChannel(-1, gameState->JumpSound, 0);
     }
 
+
+    //bullet ready - sphere
     const Uint8* Key = SDL_GetKeyboardState(NULL);
 
-    //bullet ready
-    if(Key[SDL_SCANCODE_K] && gameState->bullet.ready == true && gameState->man.facingLeft == 1)
+    if(Key[SDL_SCANCODE_A] && gameState->bullet.ready == true && gameState->man.facingLeft == 1)
     {
-        cout << "yes" << endl;
         gameState->bullet.is_move = true;
         gameState->bullet.ready = false;
 
@@ -161,13 +160,83 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
         int x = gameState->bullet.x;
         if(gameState->bullet.time + REFILL_BULLET < x || gameState->bullet.aim == true)
         {
-            gameState->bullet.x = -10;
-            gameState->bullet.y = -10;
+            gameState->bullet.x = -30;
+            gameState->bullet.y = -30;
             gameState->bullet.is_move = false;
             gameState->bullet.aim = false;
         }
     }
     if(gameState->bullet.is_move == false) {gameState->bullet.ready = true;}
+
+    //bullet ready - laser
+    if(Key[SDL_SCANCODE_S] && gameState->bullet_laser.ready == true && gameState->man.facingLeft == 1)
+    {
+        gameState->bullet_laser.is_move = true;
+        gameState->bullet_laser.ready = false;
+
+        if(gameState->bullet_laser.cnt == 0)
+        {
+            gameState->bullet_laser.x = gameState->man.x + MANSIZE/2;
+            gameState->bullet_laser.y = gameState->man.y + MANSIZE/2;
+            gameState->bullet_laser.cnt = 1;
+            gameState->bullet_laser.time = gameState->bullet_laser.x;
+        }
+        else if(gameState->bullet_laser.cnt == 1)
+        {
+            gameState->bullet_laser.x = gameState->man.x + MANSIZE/2;
+            gameState->bullet_laser.y = gameState->man.y + MANSIZE/2;
+            gameState->bullet_laser.time = gameState->bullet_laser.x;
+        }
+    }
+
+    if(gameState->bullet_laser.is_move == true)
+    {
+        gameState->bullet_laser.x += BULLET_SPHERE_SPEED;
+        int x = gameState->bullet_laser.x;
+        if(gameState->bullet_laser.time + REFILL_BULLET < x || gameState->bullet_laser.aim == true)
+        {
+            gameState->bullet_laser.x = -10;
+            gameState->bullet_laser.y = -10;
+            gameState->bullet_laser.is_move = false;
+            gameState->bullet_laser.aim = false;
+        }
+    }
+    if(gameState->bullet_laser.is_move == false) {gameState->bullet_laser.ready = true;}
+
+    //bullheart
+    if(Key[SDL_SCANCODE_D] && gameState->bullet_heart.ready == true && gameState->man.facingLeft == 1)
+    {
+        gameState->bullet_heart.is_move = true;
+        gameState->bullet_heart.ready = false;
+
+        if(gameState->bullet_heart.cnt == 0)
+        {
+            gameState->bullet_heart.x = gameState->man.x + MANSIZE/2 - 70;
+            gameState->bullet_heart.y = gameState->man.y - 30;
+            gameState->bullet_heart.cnt = 1;
+            gameState->bullet_heart.time = gameState->bullet_heart.x;
+        }
+        else if(gameState->bullet_heart.cnt == 1)
+        {
+            gameState->bullet_heart.x = gameState->man.x + MANSIZE/2 - 70;
+            gameState->bullet_heart.y = gameState->man.y - 30;
+            gameState->bullet_heart.time = gameState->bullet_heart.x;
+        }
+    }
+
+    if(gameState->bullet_heart.is_move == true)
+    {
+        gameState->bullet_heart.x += BULLET_SPHERE_SPEED;
+        int x = gameState->bullet_heart.x;
+        if(gameState->bullet_heart.time + REFILL_BULLET + 50 < x || gameState->bullet_heart.aim == true)
+        {
+            gameState->bullet_heart.x = -150;
+            gameState->bullet_heart.y = -150;
+            gameState->bullet_heart.is_move = false;
+            gameState->bullet_heart.aim = false;
+        }
+    }
+    if(gameState->bullet_heart.is_move == false) {gameState->bullet_heart.ready = true;}
 
     //more jumping
     if(Key[SDL_SCANCODE_UP] || joystickButton1){
@@ -202,6 +271,28 @@ bool process(SDL_Renderer* renderer, GameState* gameState, SDL_Window *window)
     return done;
 }
 
+void initStars_ver2(GameState *game)
+{
+    for(int i = 0; i < NUM_BIRDS; i++)
+    {
+        game->birds[i].baseX = 320 + rand()%LIMIT_X;
+        game->birds[i].baseY = (rand()%LIMIT_Y > 100) ? rand()%LIMIT_Y : 100;
+        game->birds[i].mode = rand()%2;
+        game->birds[i].phase = 2*3.14*(rand()%360)/360.0f;
+    }
+}
+
+void initBots_ver2(GameState *game)
+{
+    for(int i = 0; i < NUM_BIRDS; i++)
+    {
+        game->bots[i].baseX = 320 + rand()%LIMIT_X;
+        game->bots[i].baseY = (rand()%LIMIT_Y > 100) ? rand()%LIMIT_Y : 100;
+        game->bots[i].mode = rand()%2;
+        game->bots[i].phase = 2*3.14*(rand()%360)/360.0f;
+    }
+}
+
 void Move(GameState *game)
 {
     //cout << game->statusState << endl;
@@ -228,7 +319,6 @@ void Move(GameState *game)
         shutdown_game_control(game);
         game->statusState = STATUS_STATE_MENU;
         init_game_menu(game);
-        cout << "yes"<< endl;
         game->mouse.isClick_control = false;
         game->mouse.isClick_back = false;
     }
@@ -285,7 +375,51 @@ void Move(GameState *game)
                 }
             }
 
-            if(Fake_Man->x > LIMIT_X)
+            if(game->time % 10 == 0)
+            {
+                if(game->prin.currentFrames == 0)
+                    game->prin.currentFrames = 1;
+                else if(game->prin.currentFrames == 1)
+                    game->prin.currentFrames = 2;
+                else if(game->prin.currentFrames == 2)
+                    game->prin.currentFrames = 3;
+                else if(game->prin.currentFrames == 3)
+                    game->prin.currentFrames = 4;
+                else if(game->prin.currentFrames == 4)
+                    game->prin.currentFrames = 5;
+                else
+                    game->prin.currentFrames = 0;
+            }
+
+            if(game->time % 11 == 0)
+            {
+                if(game->pi.currentFrames == 0)
+                    game->pi.currentFrames = 1;
+                else if(game->pi.currentFrames == 1)
+                    game->pi.currentFrames = 2;
+                else if(game->pi.currentFrames == 2)
+                    game->pi.currentFrames = 3;
+                else if(game->pi.currentFrames == 3)
+                    game->pi.currentFrames = 4;
+                else if(game->pi.currentFrames == 4)
+                    game->pi.currentFrames = 5;
+                else if(game->pi.currentFrames == 5)
+                    game->pi.currentFrames = 6;
+                else
+                    game->pi.currentFrames = 0;
+            }
+
+            game->prin.x = game->prin.baseX;
+            game->prin.y = game->prin.baseY;
+            game->prin.x = game->prin.baseX + sinf(game->prin.phase + game->time*0.06f)*115;
+
+            if(game->prin.x + 50 >= game->ledges[game->prin.i].x + LEDGES_W)
+            {
+                game->prin.facingleft = 0;
+            }
+            else if(game->prin.x <= game->ledges[game->prin.i].x) game->prin.facingleft = 1;
+
+            if(Fake_Man->x > FINISH || game->pi.time > 100)
             {
                 init_game_win(game);
                 game->statusState = STATUS_STATE_WINGAME;
@@ -309,6 +443,20 @@ void Move(GameState *game)
                 }
             }
 
+            for(int i = 0; i < NUM_BIRDS; i++)
+            {
+                game->bots[i].x = game->bots[i].baseX;
+                game->bots[i].y = game->bots[i].baseY;
+
+                if(game->bots[i].mode == 0)
+                {
+                  game->bots[i].x = game->bots[i].baseX+sinf(game->bots[i].phase+game->time*0.08f)*90;
+                }
+                else
+                {
+                  game->bots[i].y = game->bots[i].baseY+cosf(game->bots[i].phase+game->time*0.08f)*90;
+                }
+            }
         }
         if(game->man.isDead == 1 && game->deathCountdown < 0)
         {
@@ -326,24 +474,44 @@ void Move(GameState *game)
 
                     game->time = 0;
 
+                    game->prin.currentFrames = 0;
+                    game->prin.facingleft = 1;
+
                     game->man.isDead = 0;
                     game->man.x = 100;
                     game->man.y = 240 - 40;
                     game->man.dx = 0;
                     game->man.dy = 0;
 
-                    game->bullet.x = -10;
-                    game->bullet.y = -10;
+                    game->bullet.x = -30;
+                    game->bullet.y = -30;
                     game->bullet.time = 0;
                     game->bullet.is_move = false;
                     game->bullet.ready = true;
                     game->bullet.cnt = 0;
                     game->bullet.aim = false;
-                    game->bullet.x_fake = 0;
-                    game->bullet.y_fake = 0;
                     game->bullet.collision = 0;
 
-                    initStars(game);
+                    game->bullet_laser.x = -10;
+                    game->bullet_laser.y = -10;
+                    game->bullet_laser.time = 0;
+                    game->bullet_laser.is_move = false;
+                    game->bullet_laser.ready = true;
+                    game->bullet_laser.cnt = 0;
+                    game->bullet_laser.aim = false;
+                    game->bullet_laser.collision = 0;
+
+                    game->bullet_heart.x = -150;
+                    game->bullet_heart.y = -150;
+                    game->bullet_heart.time = 0;
+                    game->bullet_heart.is_move = false;
+                    game->bullet_heart.ready = true;
+                    game->bullet_heart.cnt = 0;
+                    game->bullet_heart.aim = false;
+                    game->bullet_heart.collision = 0;
+
+                    initStars_ver2(game);
+                    initBots_ver2(game);
                 }
                 else
                 {
@@ -358,6 +526,6 @@ void Move(GameState *game)
     game->scrollX = -game->man.x + 320;
     if(game->scrollX > 0)
         game->scrollX = 0;
-    if(game->scrollX < -LIMIT_X+320)
-        game->scrollX = -LIMIT_X+320;
+    if(game->scrollX < -LIMIT_X + 320)
+        game->scrollX = -LIMIT_X + 320;
 }
