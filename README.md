@@ -23,4 +23,4 @@ Pig and Princess (P&P) là game tiêu diệt quái vật để đến với côn
 - Xây dựng Menu (START, HOW TO PLAY,  QUTI)
 - Xây dựng ProgressBar
 
-### Ngưỡng điểm cho là xứng đáng :  8.5+
+### Ngưỡng điểm cho là xứng đáng :  8.5
